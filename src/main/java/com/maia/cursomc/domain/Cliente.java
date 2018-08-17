@@ -6,7 +6,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CollectionTable;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import com.maia.cursomc.domain.enums.TipoPessoa;
 
@@ -14,14 +20,19 @@ import com.maia.cursomc.domain.enums.TipoPessoa;
 public class Cliente implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String nome;
 	private String email;
 	private String cpfOrCnpf;
-	private TipoPessoa tipoPessoa;
-
+	private Integer tipoPessoa;
+	
+	@OneToMany(mappedBy = "cliente")
 	private List<Endereco> enderecos = new ArrayList<>();
 
+	@ElementCollection
+	@CollectionTable(name = "TELEFONE")
 	private Set<String> telefones = new HashSet<>();
 
 	// **Construtores**//
@@ -34,7 +45,7 @@ public class Cliente implements Serializable {
 		this.nome = nome;
 		this.email = email;
 		this.cpfOrCnpf = cpfOrCnpf;
-		this.tipoPessoa = tipoPessoa;
+		this.tipoPessoa = tipoPessoa.getCod();
 	}
 
 	// ***Getters e Setters***//
@@ -70,12 +81,13 @@ public class Cliente implements Serializable {
 		this.cpfOrCnpf = cpfOrCnpf;
 	}
 
+	//Recebi o metodo do enum toEnum
 	public TipoPessoa getTipoPessoa() {
-		return tipoPessoa;
+		return TipoPessoa.toEnum(tipoPessoa);
 	}
 
 	public void setTipoPessoa(TipoPessoa tipoPessoa) {
-		this.tipoPessoa = tipoPessoa;
+		this.tipoPessoa = tipoPessoa.getCod();
 	}
 
 	public List<Endereco> getEnderecos() {
