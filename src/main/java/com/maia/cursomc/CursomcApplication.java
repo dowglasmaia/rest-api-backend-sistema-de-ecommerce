@@ -8,23 +8,35 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.maia.cursomc.domain.Categoria;
+import com.maia.cursomc.domain.Cidade;
+import com.maia.cursomc.domain.Estado;
 import com.maia.cursomc.domain.Produto;
 import com.maia.cursomc.repositores.CategoriaRepository;
+import com.maia.cursomc.repositores.CidadeRepository;
+import com.maia.cursomc.repositores.EstadoRepository;
 import com.maia.cursomc.repositores.ProdutoRepository;
 
 @SpringBootApplication
 public class CursomcApplication implements CommandLineRunner {
 
-	// Dependencia de Categoria
+	// Dependencia do Projeto
 	@Autowired
 	CategoriaRepository repository;
-	// Dependencia de Produto
+
 	@Autowired
 	ProdutoRepository pdtRepository;
+
+	@Autowired
+	CidadeRepository cidadeRepository;
+
+	@Autowired
+	EstadoRepository estadoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
 	}
+
+	// *************
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -48,6 +60,23 @@ public class CursomcApplication implements CommandLineRunner {
 		// **Salvando as Listas de Produto e Categorias no BD
 		repository.saveAll(Arrays.asList(cat1, cat2));
 		pdtRepository.saveAll(Arrays.asList(p1, p2, p3));
+
+		// ********************
+
+		// **Intaciando Estado e Cidade e Salvando os Mesmo no banco
+		Estado est1 = new Estado(null, "Goiás");
+		Estado est2 = new Estado(null, "Minas Gerais");
+
+		Cidade c1 = new Cidade(null, "Goiania", est1);
+		Cidade c2 = new Cidade(null, "Aparecida de Goiania", est1);
+		Cidade c3 = new Cidade(null, "Belo Horizonte", est2);
+
+		est1.getCidades().addAll(Arrays.asList(c1, c2));
+		est2.getCidades().addAll(Arrays.asList(c3));
+
+		estadoRepository.saveAll(Arrays.asList(est1, est2));
+		cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));
+
 	}
 
 }
