@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.maia.cursomc.domain.enums.TipoPessoa;
 
 @Entity
@@ -27,7 +28,8 @@ public class Cliente implements Serializable {
 	private String email;
 	private String cpfOrCnpf;
 	private Integer tipoPessoa;
-	
+
+	@JsonManagedReference  //Cliente pode Serealizar seus Endereços
 	@OneToMany(mappedBy = "cliente")
 	private List<Endereco> enderecos = new ArrayList<>();
 
@@ -81,7 +83,7 @@ public class Cliente implements Serializable {
 		this.cpfOrCnpf = cpfOrCnpf;
 	}
 
-	//Recebi o metodo do enum toEnum
+	// Recebi o metodo do enum toEnum
 	public TipoPessoa getTipoPessoa() {
 		return TipoPessoa.toEnum(tipoPessoa);
 	}
