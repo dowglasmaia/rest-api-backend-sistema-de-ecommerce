@@ -2,8 +2,11 @@ package com.maia.cursomc.domain;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+
 import com.maia.cursomc.domain.enums.EstadoPgto;
 
+@Entity
 public class PgtoBoleto extends Pagamento {
 	private static final long serialVersionUID = 1L;
 

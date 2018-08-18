@@ -1,5 +1,6 @@
 package com.maia.cursomc;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +13,20 @@ import com.maia.cursomc.domain.Cidade;
 import com.maia.cursomc.domain.Cliente;
 import com.maia.cursomc.domain.Endereco;
 import com.maia.cursomc.domain.Estado;
+import com.maia.cursomc.domain.Pagamento;
+import com.maia.cursomc.domain.Pedido;
+import com.maia.cursomc.domain.PgtoBoleto;
+import com.maia.cursomc.domain.PgtoCartao;
 import com.maia.cursomc.domain.Produto;
+import com.maia.cursomc.domain.enums.EstadoPgto;
 import com.maia.cursomc.domain.enums.TipoPessoa;
 import com.maia.cursomc.repositores.CategoriaRepository;
 import com.maia.cursomc.repositores.CidadeRepository;
 import com.maia.cursomc.repositores.ClienteRepository;
 import com.maia.cursomc.repositores.EnderecoRepository;
 import com.maia.cursomc.repositores.EstadoRepository;
+import com.maia.cursomc.repositores.PagamentoRepository;
+import com.maia.cursomc.repositores.PedidoRepository;
 import com.maia.cursomc.repositores.ProdutoRepository;
 
 @SpringBootApplication
@@ -42,6 +50,12 @@ public class CursomcApplication implements CommandLineRunner {
 
 	@Autowired
 	private ClienteRepository clienteRepository;
+
+	@Autowired
+	private PedidoRepository pedidoRepository;
+
+	@Autowired
+	private PagamentoRepository pagamentoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
@@ -101,6 +115,24 @@ public class CursomcApplication implements CommandLineRunner {
 
 		clienteRepository.saveAll(Arrays.asList(cli1));
 		enderecoRepository.saveAll(Arrays.asList(e1, e2));
+		// ****
+
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		// **Povoando o Pedido
+		Pedido ped1 = new Pedido(null, sdf.parse("30/09/2017 10:30"), cli1, e1);
+		Pedido ped2 = new Pedido(null, sdf.parse("10/09/2017 10:30"), cli1, e2);
+
+		Pagamento pgt1 = new PgtoCartao(null, EstadoPgto.QUITADO, ped1, 6);
+		ped1.setPagamento(pgt1);
+
+		Pagamento pgt2 = new PgtoBoleto(null, EstadoPgto.PENDENTE, ped2, sdf.parse("19/10/2017 00:00"), null);
+		ped2.setPagamento(pgt2);
+
+		// associar os clientes ao pedidos do mesmo
+		cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
+
+		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
+		pagamentoRepository.saveAll(Arrays.asList(pgt1, pgt2));
 
 	}
 

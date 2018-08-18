@@ -1,7 +1,10 @@
 package com.maia.cursomc.domain;
 
+import javax.persistence.Entity;
+
 import com.maia.cursomc.domain.enums.EstadoPgto;
 
+@Entity
 public class PgtoCartao extends Pagamento {
 	private static final long serialVersionUID = 1L;
 

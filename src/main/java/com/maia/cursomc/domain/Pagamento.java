@@ -2,46 +2,66 @@ package com.maia.cursomc.domain;
 
 import java.io.Serializable;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
+
 import com.maia.cursomc.domain.enums.EstadoPgto;
 
-public class Pagamento implements Serializable {
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)  // Gera uma Tabela Para Cada Herança da mesma
+public abstract class Pagamento implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	@Id
 	private Integer id;
-	private EstadoPgto estadoPgto;
+	private Integer estadoPgto;
 
-	private Pedido pedido;
-	
-	
+	@OneToOne
+	@JoinColumn(name = "pedido_id")
+	@MapsId
+	private Pedido pedido; //o id do Pagamento deve ser o Mesmo do Pedido Correspondente para usar a Anotação @MapsId
+
 	public Pagamento() {
-		
+
 	}
+
 	public Pagamento(Integer id, EstadoPgto estadoPgto, Pedido pedido) {
 		super();
 		this.id = id;
-		this.estadoPgto = estadoPgto;
+		this.estadoPgto = estadoPgto.getCod();
 		this.pedido = pedido;
 	}
-	
-	//**Getters e Setters
+
+	// **Getters e Setters
 	public Integer getId() {
 		return id;
 	}
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
+
 	public EstadoPgto getEstadoPgto() {
-		return estadoPgto;
+		return EstadoPgto.toEnum(estadoPgto);
 	}
+
 	public void setEstadoPgto(EstadoPgto estadoPgto) {
-		this.estadoPgto = estadoPgto;
+		this.estadoPgto = estadoPgto.getCod();
 	}
+
 	public Pedido getPedido() {
 		return pedido;
 	}
+
 	public void setPedido(Pedido pedido) {
 		this.pedido = pedido;
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -49,6 +69,7 @@ public class Pagamento implements Serializable {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -65,10 +86,5 @@ public class Pagamento implements Serializable {
 			return false;
 		return true;
 	}
-	
-	
-	
-	
-	
 
 }
