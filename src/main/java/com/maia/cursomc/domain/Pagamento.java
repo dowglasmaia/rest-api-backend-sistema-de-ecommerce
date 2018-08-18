@@ -10,10 +10,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.maia.cursomc.domain.enums.EstadoPgto;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)  // Gera uma Tabela Para Cada Herança da mesma
+@Inheritance(strategy = InheritanceType.JOINED) // Gera uma Tabela Para Cada Herança da mesma
 public abstract class Pagamento implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -21,13 +22,15 @@ public abstract class Pagamento implements Serializable {
 	private Integer id;
 	private Integer estadoPgto;
 
+	@JsonIgnore
 	@OneToOne
 	@JoinColumn(name = "pedido_id")
 	@MapsId
-	private Pedido pedido; //o id do Pagamento deve ser o Mesmo do Pedido Correspondente para usar a Anotação @MapsId
+	private Pedido pedido; // o id do Pagamento deve ser o Mesmo do Pedido Correspondente para usar a
+							// Anotação @MapsId
 
+	//Construtores
 	public Pagamento() {
-
 	}
 
 	public Pagamento(Integer id, EstadoPgto estadoPgto, Pedido pedido) {

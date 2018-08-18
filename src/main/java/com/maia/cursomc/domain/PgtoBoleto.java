@@ -4,15 +4,18 @@ import java.util.Date;
 
 import javax.persistence.Entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.maia.cursomc.domain.enums.EstadoPgto;
 
 @Entity
 public class PgtoBoleto extends Pagamento {
 	private static final long serialVersionUID = 1L;
 
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date dtaVencimento;
+
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date dtaPagamento;
-	
 
 	public PgtoBoleto() {
 	}
@@ -23,7 +26,7 @@ public class PgtoBoleto extends Pagamento {
 		this.dtaPagamento = dtaPagamento;
 	}
 
-	//**Getters e Setters
+	// **Getters e Setters
 	public Date getDtaVencimento() {
 		return dtaVencimento;
 	}
@@ -39,8 +42,5 @@ public class PgtoBoleto extends Pagamento {
 	public void setDtaPagamento(Date dtaPagamento) {
 		this.dtaPagamento = dtaPagamento;
 	}
-	
-	
-	
 
 }
