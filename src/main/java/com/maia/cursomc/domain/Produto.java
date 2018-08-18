@@ -2,7 +2,9 @@ package com.maia.cursomc.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -27,10 +30,13 @@ public class Produto implements Serializable {
 	@Column(precision = 12, scale = 2)
 	private Double preco;
 
-	@JsonBackReference  //Omiti a categoria porque do outro lado ja foi solicita a lista
+	@JsonBackReference // Omiti a categoria porque do outro lado ja foi solicita a lista
 	@ManyToMany
 	@JoinTable(name = "PRODUTO_CATEGORIA", joinColumns = @JoinColumn(name = "produto_id"), inverseJoinColumns = @JoinColumn(name = "categoria_id"))
 	private List<Categoria> categorias = new ArrayList<>();
+
+	@OneToMany(mappedBy = "id.produto")
+	private Set<ItemPedido> itens = new HashSet<>();
 
 	// **Construtores**//
 	public Produto() {
@@ -42,6 +48,15 @@ public class Produto implements Serializable {
 		this.nome = nome;
 		this.preco = preco;
 
+	}
+
+	// lista de Pedido - Fazendo com q a Class Produto Conheça seus Pedidos
+	public List<Pedido> getPedidos() {
+		List<Pedido> lista = new ArrayList<>();
+		for (ItemPedido x : itens) {
+			lista.add(x.getPedido());
+		}
+		return lista;
 	}
 
 	// **Getters e Setters**//
@@ -75,6 +90,14 @@ public class Produto implements Serializable {
 
 	public void setCategorias(List<Categoria> categorias) {
 		this.categorias = categorias;
+	}
+
+	public Set<ItemPedido> getItens() {
+		return itens;
+	}
+
+	public void setItens(Set<ItemPedido> itens) {
+		this.itens = itens;
 	}
 
 	@Override
