@@ -3,6 +3,7 @@ package com.maia.cursomc.services;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.maia.cursomc.domain.Categoria;
@@ -28,10 +29,22 @@ public class CategoriaService {
 		return repository.save(obj);
 	}
 
-	//update
+	// update
 	public Categoria update(Categoria obj) {
 		find(obj.getId());
 		return repository.save(obj);
+	}
+
+	// Delete
+	public void delete(Integer id) {
+		find(id); // Chama o Metodo Buscar por Id pra vereficar se o mesmo Existe
+		try {
+			repository.deleteById(id);
+		} catch (DataIntegrityViolationException e) {
+			throw new DataIntegrityViolationException("Não é Possível Excluir Uma Categoria que Possui Produtos!");
+
+		}
+
 	}
 
 }
