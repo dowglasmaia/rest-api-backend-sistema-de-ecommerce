@@ -16,7 +16,7 @@ public class CategoriaService {
 	private CategoriaRepository repository;
 
 	// metodo para BusarPor ID com SpringDataJPA
-	public Categoria busbar(Integer id) {
+	public Categoria find(Integer id) {
 		Optional<Categoria> obj = repository.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto Não Encontrado! Id: " + id + ", Tipo: " + Categoria.class.getName()));
@@ -25,6 +25,12 @@ public class CategoriaService {
 	// Inserir / Save
 	public Categoria insert(Categoria obj) {
 		obj.setId(null);
+		return repository.save(obj);
+	}
+
+	//update
+	public Categoria update(Categoria obj) {
+		find(obj.getId());
 		return repository.save(obj);
 	}
 

@@ -16,7 +16,7 @@ public class PedidoService {
 	private PedidoRepository repository;
 
 	// metodo para BusarPor ID com SpringDataJPA
-	public Pedido busbar(Integer id) {
+	public Pedido find(Integer id) {
 		Optional<Pedido> obj = repository.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto Não Encontrado! Id: " + id + ", Tipo: " + Pedido.class.getName()));

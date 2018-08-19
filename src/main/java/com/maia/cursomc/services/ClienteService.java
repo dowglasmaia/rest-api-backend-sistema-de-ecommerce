@@ -16,7 +16,7 @@ public class ClienteService {
 	private ClienteRepository repository;
 
 	// metodo para BusarPor ID com SpringDataJPA
-	public Cliente busbar(Integer id) {
+	public Cliente find(Integer id) {
 		Optional<Cliente> obj = repository.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto Não Encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName()));
