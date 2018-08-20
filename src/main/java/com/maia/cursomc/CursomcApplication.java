@@ -73,6 +73,12 @@ public class CursomcApplication implements CommandLineRunner {
 		// Povoando a Categoria
 		Categoria cat1 = new Categoria(null, "Informatica");
 		Categoria cat2 = new Categoria(null, "Telefonia");
+		Categoria cat3 = new Categoria(null, "Energia");
+		Categoria cat4 = new Categoria(null, "Acessorios");
+		Categoria cat5 = new Categoria(null, "RH");
+		Categoria cat6 = new Categoria(null, "Perfumaria");
+		Categoria cat7 = new Categoria(null, "Audio e Video");
+		Categoria cat8 = new Categoria(null, "Moveis");
 
 		// Povoando o Produto
 		Produto p1 = new Produto(null, "Notbook S50", 6000.00);
@@ -88,7 +94,7 @@ public class CursomcApplication implements CommandLineRunner {
 		p3.getCategorias().addAll(Arrays.asList(cat2, cat1));
 
 		// **Salvando as Listas de Produto e Categorias no BD
-		repository.saveAll(Arrays.asList(cat1, cat2));
+		repository.saveAll(Arrays.asList(cat1, cat2, cat3, cat4, cat5, cat6, cat7, cat8));
 		pdtRepository.saveAll(Arrays.asList(p1, p2, p3));
 
 		// ********************
