@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.maia.cursomc.domain.Categoria;
+import com.maia.cursomc.dto.CategoriaDTO;
 import com.maia.cursomc.repositores.CategoriaRepository;
 import com.maia.cursomc.services.exception.ObjectNotFoundException;
 
@@ -58,6 +59,11 @@ public class CategoriaService {
 	public Page<Categoria> findPage(Integer page, Integer linesPage, String orderBy, String direction) {
 		PageRequest pageRequest = PageRequest.of(page, linesPage, Direction.valueOf(direction), orderBy);
 		return repository.findAll(pageRequest);
+	}
+
+	// Metodo Auxiliar para Instaciar Uma Categoria Apartir de um DTO
+	public Categoria fromDTO(CategoriaDTO objDTO) {
+		return new Categoria(objDTO.getId(), objDTO.getNome());
 	}
 
 }
