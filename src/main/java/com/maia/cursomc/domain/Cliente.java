@@ -51,7 +51,7 @@ public class Cliente implements Serializable {
 		this.nome = nome;
 		this.email = email;
 		this.cpfOrCnpf = cpfOrCnpf;
-		this.tipoPessoa = tipoPessoa.getCod();
+		this.tipoPessoa = (tipoPessoa == null) ? null : tipoPessoa.getCod();
 	}
 
 	// ***Getters e Setters***//
