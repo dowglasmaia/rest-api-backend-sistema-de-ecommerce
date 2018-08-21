@@ -36,8 +36,9 @@ public class CategoriaService {
 
 	// update
 	public Categoria update(Categoria obj) {
-		find(obj.getId());
-		return repository.save(obj);
+		Categoria newObj = find(obj.getId());
+		updateData(newObj, obj);
+		return repository.save(newObj);
 	}
 
 	// Delete
@@ -64,6 +65,12 @@ public class CategoriaService {
 	// Metodo Auxiliar para Instaciar Uma Categoria Apartir de um DTO
 	public Categoria fromDTO(CategoriaDTO objDTO) {
 		return new Categoria(objDTO.getId(), objDTO.getNome());
+	}
+
+	// metodo auxilar para atualizar um novo cliente
+	private void updateData(Categoria newObj, Categoria obj) {
+		newObj.setNome(obj.getNome());
+
 	}
 
 }
