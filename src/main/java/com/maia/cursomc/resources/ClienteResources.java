@@ -19,6 +19,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.maia.cursomc.domain.Cliente;
 import com.maia.cursomc.dto.ClienteDTO;
+import com.maia.cursomc.dto.ClienteNewDTO;
 import com.maia.cursomc.services.ClienteService;
 
 @RestController
@@ -35,9 +36,9 @@ public class ClienteResources {
 		return ResponseEntity.ok().body(obj);
 	}
 	
-	// Salvar / Inserir
+	// Salvar / Inserir  novo Cliente
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> insert(@Valid @RequestBody ClienteDTO objDto) {
+	public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDTO objDto) {
 		Cliente obj = service.fromDTO(objDto);
 		obj = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
