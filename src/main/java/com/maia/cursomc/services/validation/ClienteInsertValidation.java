@@ -8,6 +8,7 @@ import javax.validation.ConstraintValidatorContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.maia.cursomc.domain.Cliente;
 import com.maia.cursomc.domain.enums.TipoPessoa;
 import com.maia.cursomc.dto.ClienteNewDTO;
 import com.maia.cursomc.repositores.ClienteRepository;
@@ -36,6 +37,12 @@ public class ClienteInsertValidation implements ConstraintValidator<ClienteInser
 		if (objDto.getTipoPessoa().equals(TipoPessoa.PESSOA_JURIDICA.getCod())
 				&& !BR.isValidCNPJ(objDto.getCpfOrCnpf())) {
 			list.add(new FieldMessage("cpfOrCnpf", "CNPJ Inválido!"));
+		}
+
+		// testando se email do cliente ja existe
+		Cliente aux = clienteRepository.findByEmail(objDto.getEmail());
+		if(aux != null) {
+			list.add(new FieldMessage("email", "E-mail já Existe!"));
 		}
 
 		// inclua os testes aqui, inserindo erros na lista
