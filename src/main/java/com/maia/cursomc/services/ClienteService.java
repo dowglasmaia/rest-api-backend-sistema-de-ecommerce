@@ -104,9 +104,7 @@ public class ClienteService {
 		if (objDTO.getTelefone3() != null) {
 			cli.getTelefones().add(objDTO.getTelefone3());
 		}
-
 		return cli;
-
 	}
 
 }
