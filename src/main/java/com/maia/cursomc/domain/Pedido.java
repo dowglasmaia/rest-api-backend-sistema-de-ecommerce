@@ -24,7 +24,7 @@ public class Pedido implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
 	private Date dtaPedido;
 
@@ -39,7 +39,7 @@ public class Pedido implements Serializable {
 	@JoinColumn(name = "endereco_entrega_id")
 	private Endereco enderecoDeEntrega;
 
-	@OneToMany (mappedBy = "id.pedido")
+	@OneToMany(mappedBy = "id.pedido")
 	private Set<ItemPedido> itens = new HashSet<>();
 
 	// **Construtores
@@ -52,6 +52,15 @@ public class Pedido implements Serializable {
 		this.dtaPedido = dtaPedido;
 		this.cliente = cliente;
 		this.enderecoDeEntrega = enderecoDeEntrega;
+	}
+
+	// calculando o valor Total do Pedido
+	public double getValorTotal() {
+		double soma = 0.0;
+		for (ItemPedido ip : itens) {
+			soma = soma + ip.getSubTotal();
+		}
+		return soma;
 	}
 
 	// **Getters e Setters

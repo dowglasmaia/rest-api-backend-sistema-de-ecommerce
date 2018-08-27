@@ -32,6 +32,13 @@ public class ItemPedido implements Serializable {
 		this.preco = preco;
 	}
 
+	// calculando o Sub Total do Pedido * obs.: usar o get... para ser serealizado
+	// pelo Json
+	public double getSubTotal() {
+		return (preco - descont) * quantidade;
+
+	}
+
 	// **Geteres e Setters**//
 
 	@JsonIgnore
@@ -39,7 +46,6 @@ public class ItemPedido implements Serializable {
 		return id.getPedido();
 	}
 
-	
 	public Produto getProduto() {
 		return id.getProduto();
 	}
