@@ -11,10 +11,12 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.maia.cursomc.domain.enums.EstadoPgto;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED) // Gera uma Tabela Para Cada Herança da mesma
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")  // para instancia a class Abstrata  um capo adicional com @Type
 public abstract class Pagamento implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -29,14 +31,15 @@ public abstract class Pagamento implements Serializable {
 	private Pedido pedido; // o id do Pagamento deve ser o Mesmo do Pedido Correspondente para usar a
 							// Anotação @MapsId
 
-	//Construtores
+	// Construtores
 	public Pagamento() {
 	}
 
 	public Pagamento(Integer id, EstadoPgto estadoPgto, Pedido pedido) {
 		super();
 		this.id = id;
-		this.estadoPgto = (estadoPgto == null) ? null : estadoPgto.getCod(); //(se o Pagamento for Null ele Recebe Null se Não recebe o getCod.
+		this.estadoPgto = (estadoPgto == null) ? null : estadoPgto.getCod(); // (se o Pagamento for Null ele Recebe Null
+																				// se Não recebe o getCod.
 		this.pedido = pedido;
 	}
 
