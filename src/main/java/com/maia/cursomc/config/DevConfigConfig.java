@@ -18,7 +18,6 @@ public class DevConfigConfig {
 	private DBService dbService;
 
 	// virificando a chave de configuração do BD
-
 	@Value("${spring.jpa.hibernate.ddl-auto}")
 	private String strategy;
 

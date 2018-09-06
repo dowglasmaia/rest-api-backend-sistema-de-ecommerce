@@ -10,6 +10,7 @@ import com.maia.cursomc.domain.ItemPedido;
 import com.maia.cursomc.domain.Pedido;
 import com.maia.cursomc.domain.PgtoBoleto;
 import com.maia.cursomc.domain.enums.EstadoPgto;
+import com.maia.cursomc.dto.ClienteNewDTO;
 import com.maia.cursomc.repositores.ItemPedidoRepository;
 import com.maia.cursomc.repositores.PagamentoRepository;
 import com.maia.cursomc.repositores.PedidoRepository;
@@ -33,6 +34,9 @@ public class PedidoService {
 	@Autowired
 	private ItemPedidoRepository itemPedidoRepository;
 
+	@Autowired
+	private ClienteService clienteService;
+
 	// metodo para BusarPor ID com SpringDataJPA
 	public Pedido find(Integer id) {
 		Optional<Pedido> obj = repository.findById(id);
@@ -44,6 +48,7 @@ public class PedidoService {
 	public Pedido insert(Pedido obj) {
 		obj.setId(null); // garantindo que é um pedido novo
 		obj.setDtaPedido(new Date()); // gera a data atual do sistema
+		obj.setCliente(clienteService.find(obj.getCliente().getId()));
 		obj.getPagamento().setEstadoPgto(EstadoPgto.PENDENTE);
 		obj.getPagamento().setPedido(obj);
 		if (obj.getPagamento() instanceof PgtoBoleto) {
@@ -52,15 +57,17 @@ public class PedidoService {
 		}
 		obj = repository.save(obj);
 		pagamentoRepository.save(obj.getPagamento());
-		
+
 		for (ItemPedido ip : obj.getItens()) {
 			ip.setDescont(0.0);
-			ip.setPreco(produtoService.find(ip.getProduto().getId()).getPreco());
+			ip.setProduto(produtoService.find(ip.getProduto().getId()));
+			ip.setPreco(ip.getProduto().getPreco());
 			ip.setPedido(obj);
 		}
-		
+
 		itemPedidoRepository.saveAll(obj.getItens());
-		
+		System.out.println(obj);
+
 		return obj;
 	}
 
