@@ -10,16 +10,16 @@ import com.maia.cursomc.domain.ItemPedido;
 import com.maia.cursomc.domain.Pedido;
 import com.maia.cursomc.domain.PgtoBoleto;
 import com.maia.cursomc.domain.enums.EstadoPgto;
-import com.maia.cursomc.dto.ClienteNewDTO;
 import com.maia.cursomc.repositores.ItemPedidoRepository;
 import com.maia.cursomc.repositores.PagamentoRepository;
 import com.maia.cursomc.repositores.PedidoRepository;
+import com.maia.cursomc.services.email.EmailService;
 import com.maia.cursomc.services.exception.ObjectNotFoundException;
 
 @Service
 public class PedidoService {
 
-	@Autowired // instanciando o Pedido Service
+	@Autowired // Injetando as instancias para o Pedido Service
 	private PedidoRepository repository;
 
 	@Autowired
@@ -36,6 +36,9 @@ public class PedidoService {
 
 	@Autowired
 	private ClienteService clienteService;
+
+	@Autowired
+	private EmailService emailService;
 
 	// metodo para BusarPor ID com SpringDataJPA
 	public Pedido find(Integer id) {
@@ -66,7 +69,7 @@ public class PedidoService {
 		}
 
 		itemPedidoRepository.saveAll(obj.getItens());
-		System.out.println(obj);
+		emailService.sendOrderConfirmationEmail(obj);
 
 		return obj;
 	}
