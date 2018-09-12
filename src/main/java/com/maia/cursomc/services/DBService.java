@@ -121,7 +121,7 @@ public class DBService {
 		cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));
 
 		// **Povoando o Cliente no banco
-		Cliente cli1 = new Cliente(null, "Dowglas Maia", "Dowglasmaia@live.com", "003.653.658-87",
+		Cliente cli1 = new Cliente(null, "Dowglas Maia", "dowglasmaia@live.com", "003.653.658-87",
 				TipoPessoa.PESSOA_FISICA);
 
 		cli1.getTelefones().addAll(Arrays.asList("62-98888-8987", "89-95555-8745"));

@@ -1,6 +1,7 @@
 package com.maia.cursomc.services;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,9 +70,14 @@ public class PedidoService {
 		}
 
 		itemPedidoRepository.saveAll(obj.getItens());
-		emailService.sendOrderConfirmationEmail(obj);
+		// emailService.sendOrderConfirmationEmail(obj);
 
 		return obj;
+	}
+
+	public List<Pedido> findAll() {
+
+		return repository.findAll();
 	}
 
 }
