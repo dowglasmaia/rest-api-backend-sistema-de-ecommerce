@@ -20,6 +20,7 @@ import com.maia.cursomc.domain.PgtoBoleto;
 import com.maia.cursomc.domain.PgtoCartao;
 import com.maia.cursomc.domain.Produto;
 import com.maia.cursomc.domain.enums.EstadoPgto;
+import com.maia.cursomc.domain.enums.Perfil;
 import com.maia.cursomc.domain.enums.TipoPessoa;
 import com.maia.cursomc.repositores.CategoriaRepository;
 import com.maia.cursomc.repositores.CidadeRepository;
@@ -61,9 +62,9 @@ public class DBService {
 
 	@Autowired
 	private ItemPedidoRepository itemPedidoRepository;
-	
+
 	@Autowired
-	private BCryptPasswordEncoder pe;  // para encodar a Senha no banco de dados
+	private BCryptPasswordEncoder pe; // para encodar a Senha no banco de dados
 
 	public void instanciateTestDatabase() throws ParseException {
 		// Povoando a Categoria
@@ -127,16 +128,22 @@ public class DBService {
 		// **Povoando o Cliente no banco
 		Cliente cli1 = new Cliente(null, "Dowglas Maia", "dowglasmaia@live.com", "003.653.658-87",
 				TipoPessoa.PESSOA_FISICA, pe.encode("0123"));
-
 		cli1.getTelefones().addAll(Arrays.asList("62-98888-8987", "89-95555-8745"));
-
 		Endereco e1 = new Endereco(null, "Rua k15", "20-B", "Apt-250", "Centro", "78.658-890", cli1, c1);
 		Endereco e2 = new Endereco(null, "Rua Ventos Leva", "220-B", "Apt-350", "Centro", "68.658-890", cli1, c3);
-
 		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
 
-		clienteRepository.saveAll(Arrays.asList(cli1));
-		enderecoRepository.saveAll(Arrays.asList(e1, e2));
+		//****Cliente 02
+		Cliente cli2 = new Cliente(null, "kayron", "dowglasmaia@gmail.com", "028.654.540-37", TipoPessoa.PESSOA_FISICA,
+				pe.encode("0123"));
+		cli2.addPerfil(Perfil.ADMIN);
+		cli2.getTelefones().addAll(Arrays.asList("62-90215-6558", "89-3521-0254"));
+		Endereco e3 = new Endereco(null, "Rua Bragona", "20-B", "Apt-2", "Centro", "78.658-890", cli2, c3);
+		Endereco e4 = new Endereco(null, "Rua Sky Blue", "2-B", "Apt-3", "Copas", "68.658-890", cli1, c2);
+		cli2.getEnderecos().addAll(Arrays.asList(e3, e4));
+
+		clienteRepository.saveAll(Arrays.asList(cli1, cli2));
+		enderecoRepository.saveAll(Arrays.asList(e1, e2,e3,e4));
 		// ****
 
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
