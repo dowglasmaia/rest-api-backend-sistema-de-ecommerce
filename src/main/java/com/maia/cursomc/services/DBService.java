@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.maia.cursomc.domain.Categoria;
@@ -60,6 +61,9 @@ public class DBService {
 
 	@Autowired
 	private ItemPedidoRepository itemPedidoRepository;
+	
+	@Autowired
+	private BCryptPasswordEncoder pe;  // para encodar a Senha no banco de dados
 
 	public void instanciateTestDatabase() throws ParseException {
 		// Povoando a Categoria
@@ -122,7 +126,7 @@ public class DBService {
 
 		// **Povoando o Cliente no banco
 		Cliente cli1 = new Cliente(null, "Dowglas Maia", "dowglasmaia@live.com", "003.653.658-87",
-				TipoPessoa.PESSOA_FISICA);
+				TipoPessoa.PESSOA_FISICA, pe.encode("0123"));
 
 		cli1.getTelefones().addAll(Arrays.asList("62-98888-8987", "89-95555-8745"));
 

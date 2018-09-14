@@ -25,6 +25,8 @@ public class ClienteDTO implements Serializable {
 	@Email(message = "Email Ivalido")
 	@Column(unique = true)
 	private String email;
+	
+	
 
 	// Contrutores
 	public ClienteDTO() {
@@ -61,5 +63,7 @@ public class ClienteDTO implements Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+
 
 }

@@ -25,6 +25,9 @@ public class ClienteNewDTO implements Serializable {
 	private Integer tipoPessoa;
 
 	@NotEmpty(message = "Preenchimento Obrigatório")
+	private String senha;
+
+	@NotEmpty(message = "Preenchimento Obrigatório")
 	private String logradouro;
 
 	@NotEmpty(message = "Preenchimento Obrigatório")
@@ -75,7 +78,7 @@ public class ClienteNewDTO implements Serializable {
 		this.cpfOrCnpf = cpfOrCnpf;
 	}
 
-	//Retorna Um Integer e não um TipoPessoa
+	// Retorna Um Integer e não um TipoPessoa
 	public Integer getTipoPessoa() {
 		return tipoPessoa;
 	}
@@ -156,4 +159,11 @@ public class ClienteNewDTO implements Serializable {
 		this.cidadeId = cidadeId;
 	}
 
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
 }

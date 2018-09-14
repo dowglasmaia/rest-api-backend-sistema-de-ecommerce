@@ -8,6 +8,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +24,10 @@ import com.maia.cursomc.services.exception.ObjectNotFoundException;
 
 @Service
 public class ClienteService {
+
+	@Autowired
+	private BCryptPasswordEncoder pe;  // para encodar a Senha no banco de dados
+	
 
 	@Autowired // instanciando o Repositorio do Cliente
 	private ClienteRepository repository;
@@ -65,7 +70,8 @@ public class ClienteService {
 		try {
 			repository.deleteById(id);
 		} catch (DataIntegrityViolationException e) {
-			throw new DataIntegrityViolationException("Não é Possível Excluir Este Cliente, Poque a Pedidos Relacionados.");
+			throw new DataIntegrityViolationException(
+					"Não é Possível Excluir Este Cliente, Poque a Pedidos Relacionados.");
 		}
 	}
 
@@ -82,13 +88,13 @@ public class ClienteService {
 
 	// Metodo Auxiliar para Instaciar Uma Cliente Apartir de um DTO
 	public Cliente fromDTO(ClienteDTO objDTO) {
-		return new Cliente(objDTO.getId(), objDTO.getNome(), objDTO.getEmail(), null, null);
+		return new Cliente(objDTO.getId(), objDTO.getNome(), objDTO.getEmail(), null, null,null);
 	}
 
 	// metodo para Salvar o Cliente Com Todos as Suas dependencias
 	public Cliente fromDTO(ClienteNewDTO objDTO) {
 		Cliente cli = new Cliente(null, objDTO.getNome(), objDTO.getEmail(), objDTO.getCpfOrCnpf(),
-				TipoPessoa.toEnum(objDTO.getTipoPessoa()));
+				TipoPessoa.toEnum(objDTO.getTipoPessoa()),pe.encode(objDTO.getSenha()));
 
 		Cidade cid = new Cidade(objDTO.getCidadeId(), null, null);
 
