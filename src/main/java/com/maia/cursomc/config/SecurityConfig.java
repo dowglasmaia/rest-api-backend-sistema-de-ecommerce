@@ -19,6 +19,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.maia.cursomc.domain.security.JWTAuthenticationFilter;
+import com.maia.cursomc.domain.security.JWTAuthorizationFilter;
 import com.maia.cursomc.domain.security.JWTUtil;
 
 @Configuration
@@ -52,7 +53,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers(PUBLIC_MATCHERS)// passo meu vetor de url permitidas
 				.permitAll() // permite todos do meu metodo criado acima
 				.anyRequest().authenticated(); // para todo o resto exige autenticação
-		http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil)); // Token do JWT
+		http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil)); //Autenticação do Token do JWT
+		http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, userDetailsService)); // Autorização do token
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // ACEGURA QUE O Back-End Não
 																							// Cria sessão de Usuairo
 	}
