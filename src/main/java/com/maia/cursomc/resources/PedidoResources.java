@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +25,7 @@ public class PedidoResources {
 	@Autowired
 	private PedidoService service;
 
+	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Pedido> find(@PathVariable Integer id) {
 		Pedido obj = service.find(id);
@@ -31,6 +33,7 @@ public class PedidoResources {
 	}
 
 	// Salvar / Inserir
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody Pedido obj) {
 		obj = service.insert(obj);
@@ -39,6 +42,7 @@ public class PedidoResources {
 	}
 
 	// Listar Todao os Pedidos
+	
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<Pedido>> findAll() {
 		List<Pedido> list = service.findAll();
