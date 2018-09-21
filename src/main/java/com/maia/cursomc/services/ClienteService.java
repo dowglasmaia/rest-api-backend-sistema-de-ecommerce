@@ -15,11 +15,14 @@ import org.springframework.transaction.annotation.Transactional;
 import com.maia.cursomc.domain.Cidade;
 import com.maia.cursomc.domain.Cliente;
 import com.maia.cursomc.domain.Endereco;
+import com.maia.cursomc.domain.enums.Perfil;
 import com.maia.cursomc.domain.enums.TipoPessoa;
+import com.maia.cursomc.domain.security.UserSS;
 import com.maia.cursomc.dto.ClienteDTO;
 import com.maia.cursomc.dto.ClienteNewDTO;
 import com.maia.cursomc.repositores.ClienteRepository;
 import com.maia.cursomc.repositores.EnderecoRepository;
+import com.maia.cursomc.services.exception.AuthorizationException;
 import com.maia.cursomc.services.exception.ObjectNotFoundException;
 
 @Service
@@ -37,6 +40,12 @@ public class ClienteService {
 
 	// metodo para BusarPor ID com SpringDataJPA
 	public Cliente find(Integer id) {
+		
+		UserSS user = UserService.authenticated();
+		if(user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+			throw new AuthorizationException("Acesso Negado!");
+		}
+		
 		Optional<Cliente> obj = repository.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto Não Encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName()));

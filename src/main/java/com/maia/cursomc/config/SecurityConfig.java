@@ -38,10 +38,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private JWTUtil jwtUtil;
 
 	// metodu que informa quas url estão liberas para acesso
-	private static final String[] PUBLIC_MATCHERS = { "/h2-console/**" };
+	private static final String[] PUBLIC_MATCHERS = { 
+			"/h2-console/**" };
 
 	// Somente Leitura dos Dados
-	private static final String[] PUBLIC_MATCHERS_GET = { "/produtos/**", "/categorias/**", "/clientes/**" };
+	private static final String[] PUBLIC_MATCHERS_GET = {
+			"/produtos/**", "/categorias/**", "/clientes/**" };
+	
+	// Somente Post
+	private static final String[] PUBLIC_MATCHERS_POST = { 
+			"/clientes/**" };
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -51,7 +57,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			http.headers().frameOptions().disable();
 		}
 		http.cors().and().csrf().disable();
-		http.authorizeRequests().antMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll()
+		http.authorizeRequests()
+				.antMatchers(HttpMethod.GET, PUBLIC_MATCHERS_POST).permitAll()
+				.antMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll()
 				.antMatchers(PUBLIC_MATCHERS)// passo meu vetor de url permitidas
 				.permitAll() // permite todos do meu metodo criado acima
 				.anyRequest().authenticated(); // para todo o resto exige autenticação
