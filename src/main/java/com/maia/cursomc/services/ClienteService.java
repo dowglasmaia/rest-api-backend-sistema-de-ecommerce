@@ -39,8 +39,7 @@ public class ClienteService {
 	EnderecoRepository enderecoRepository;
 
 	// metodo para BusarPor ID com SpringDataJPA
-	public Cliente find(Integer id) {
-		
+	public Cliente find(Integer id) {		
 		UserSS user = UserService.authenticated();
 		if(user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
 			throw new AuthorizationException("Acesso Negado!");

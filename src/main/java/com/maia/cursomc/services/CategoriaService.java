@@ -3,6 +3,8 @@ package com.maia.cursomc.services;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -29,12 +31,14 @@ public class CategoriaService {
 	}
 
 	// Inserir / Save
+	@Transactional
 	public Categoria insert(Categoria obj) {
 		obj.setId(null);
 		return repository.save(obj);
 	}
 
 	// update
+	@Transactional
 	public Categoria update(Categoria obj) {
 		Categoria newObj = find(obj.getId());
 		updateData(newObj, obj);
@@ -42,6 +46,7 @@ public class CategoriaService {
 	}
 
 	// Delete
+	@Transactional
 	public void delete(Integer id) {
 		find(id); // Chama o Metodo Buscar por Id pra vereficar se o mesmo Existe
 		try {

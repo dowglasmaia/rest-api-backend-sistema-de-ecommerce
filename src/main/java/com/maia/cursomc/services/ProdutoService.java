@@ -34,7 +34,6 @@ public class ProdutoService {
 	// Buscar de Produtos com JPQL...
 	public Page<Produto> search(String nome, List<Integer> ids, Integer page, Integer linesPage, String orderBy,
 			String direction) {
-
 		PageRequest pageRequest = PageRequest.of(page, linesPage, Direction.valueOf(direction), orderBy);
 		List<Categoria>categorias = catRepository.findAllById(ids);
 		return repository.findDistinctByNomeContainingAndCategoriasIn(nome, categorias, pageRequest);

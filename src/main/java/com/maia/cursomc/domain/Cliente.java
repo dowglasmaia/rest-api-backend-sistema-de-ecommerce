@@ -83,7 +83,7 @@ public class Cliente implements Serializable {
 		return perfis.stream().map(x -> Perfil.toEnum(x)).collect(Collectors.toSet());
 	}
 
-	//Adiciona o Perfil dos Clietnes
+	//Adiciona o Perfil dos Clientes
 	public void addPerfil(Perfil perfil) {
 		perfis.add(perfil.getCod());
 	}
