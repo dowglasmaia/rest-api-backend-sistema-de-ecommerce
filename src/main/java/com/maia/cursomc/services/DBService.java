@@ -133,7 +133,7 @@ public class DBService {
 		Endereco e2 = new Endereco(null, "Rua Ventos Leva", "220-B", "Apt-350", "Centro", "68.658-890", cli1, c3);
 		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
 
-		//****Cliente 02
+		//****Cliente 02   -  cli2.addPerfil(Perfil.ADMIN);
 		Cliente cli2 = new Cliente(null, "kayron", "dowglasmaia@gmail.com", "028.654.540-37", TipoPessoa.PESSOA_FISICA,
 				pe.encode("0123"));
 		cli2.addPerfil(Perfil.ADMIN);
@@ -149,7 +149,7 @@ public class DBService {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		// **Povoando o Pedido
 		Pedido ped1 = new Pedido(null, sdf.parse("30/09/2017 10:30"), cli1, e1);
-		Pedido ped2 = new Pedido(null, sdf.parse("10/09/2017 10:30"), cli1, e2);
+		Pedido ped2 = new Pedido(null, sdf.parse("10/09/2017 10:30"), cli2, e2);
 
 		Pagamento pgt1 = new PgtoCartao(null, EstadoPgto.QUITADO, ped1, 6);
 		ped1.setPagamento(pgt1);

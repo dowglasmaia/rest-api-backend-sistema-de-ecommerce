@@ -1,6 +1,7 @@
 package com.maia.cursomc.resources;
 
 import java.net.URI;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -28,8 +29,8 @@ public class PedidoResources {
 	private PedidoService service;
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Pedido> find(@PathVariable Integer id) {
-		Pedido obj = service.find(id);
+	public ResponseEntity<Optional<Pedido>> find(@PathVariable Integer id) {
+		Optional<Pedido> obj = service.find(id);
 		return ResponseEntity.ok().body(obj);
 	}
 

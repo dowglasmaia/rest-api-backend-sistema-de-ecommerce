@@ -51,11 +51,20 @@ public class PedidoService {
 	private EmailService emailService;
 
 	// metodo para BusarPor ID com SpringDataJPA
-	public Pedido find(Integer id) {	
-		Optional<Pedido> obj = repository.findById(id);		
-		return obj.orElseThrow(() -> new ObjectNotFoundException(
-				"Objeto Não Encontrado! Id: " + id + ", Tipo: " + Pedido.class.getName()));
-	}
+		public Optional<Pedido> find(Integer id) {
+			Optional<Pedido> obj = repository.findById(id);
+			if (obj == null) {
+				throw new ObjectNotFoundException("Pedido Não Encontrado! Id: " + id + ", Tipo: " + Pedido.class.getName());
+			}
+
+			UserSS user = UserService.authenticated();
+			if (user == null || !user.hasRole(Perfil.ADMIN) && !obj.get().getCliente().getId().equals(user.getId())) {
+				throw new AuthorizationException("Acesso Negado!");
+			}
+			return obj;
+
+		}
+		
 
 	// inserir Pedido
 	@Transactional
