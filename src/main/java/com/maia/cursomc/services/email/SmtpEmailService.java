@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 
+import com.maia.cursomc.domain.Cliente;
+
 /*
  * Class Que Envia o Email*/
 
@@ -22,6 +24,12 @@ public class SmtpEmailService extends AbstractEmailService {
 		mailSender.send(msg);
 		LOG.info("Email Enviado com Sucesso!");
 
+	}
+
+	@Override
+	public void sendNewPasswordEmail(Cliente cliente, String newPass) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
