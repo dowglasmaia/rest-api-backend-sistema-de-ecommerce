@@ -32,7 +32,7 @@ public class AuthResorces {
 		UserSS user = UserService.authenticated();
 		String token = jwtUtil.generateToken(user.getUsername());
 		response.addHeader("Authorization", "Bearer " + token);
-		response.addHeader("access-control-expose-headers", "Authorization");
+		response.addHeader("access-control-expose-headers", "Authorization"); //libera a Leitura do Authorization por CORS
 		return ResponseEntity.noContent().build();
 	}
 	
