@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.maia.cursomc.domain.Cliente;
@@ -30,14 +31,14 @@ public class ClienteResources {
 	@Autowired
 	private ClienteService service;
 
-	//Buscar Por Id
+	// Buscar Por Id
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Cliente> find(@PathVariable Integer id) {
 		Cliente obj = service.find(id);
 		return ResponseEntity.ok().body(obj);
 	}
-	
-	// Salvar / Inserir  novo Cliente
+
+	// Salvar / Inserir novo Cliente
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDTO objDto) {
 		Cliente obj = service.fromDTO(objDto);
@@ -55,7 +56,7 @@ public class ClienteResources {
 		return ResponseEntity.noContent().build();
 	}
 
-	@PreAuthorize("hasAnyRole('ADMIN')")  //Autoriza Somente o Perfil Adim para Fazer um POST
+	@PreAuthorize("hasAnyRole('ADMIN')") // Autoriza Somente o Perfil Adim para Fazer um POST
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
 		service.delete(id);
@@ -63,7 +64,7 @@ public class ClienteResources {
 	}
 
 	// Listar Todas Retornando a ListaDTO
-	@PreAuthorize("hasAnyRole('ADMIN')")  //Autoriza Somente o Perfil Adim para Fazer um POST
+	@PreAuthorize("hasAnyRole('ADMIN')") // Autoriza Somente o Perfil Adim para Fazer um POST
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<ClienteDTO>> findAll() {
 		List<Cliente> list = service.findAll();
@@ -72,7 +73,7 @@ public class ClienteResources {
 	}
 
 	// Listar Paginada Retornando a ListaDTO
-	@PreAuthorize("hasAnyRole('ADMIN')")  //Autoriza Somente o Perfil Adim para Fazer um POST
+	@PreAuthorize("hasAnyRole('ADMIN')") // Autoriza Somente o Perfil Adim para Fazer um POST
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public ResponseEntity<Page<ClienteDTO>> findPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "linesPage", defaultValue = "24") Integer linesPage,
@@ -83,4 +84,13 @@ public class ClienteResources {
 		Page<ClienteDTO> listDTO = list.map(obj -> new ClienteDTO(obj));
 		return ResponseEntity.ok().body(listDTO);
 	}
+
+	// Endpoint - ClienteUpload S3 - Salvar a IMG do Cliente na AWS S3
+	@RequestMapping(value = "/picture", method = RequestMethod.POST)
+	public ResponseEntity<Void> uploadProfilePicture(@RequestParam(name = "file") MultipartFile file) {
+		URI uri = service.uploadProfilePicture(file);
+		return ResponseEntity.created(uri).build();
+	}
+	
+	
 }

@@ -37,7 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private JWTUtil jwtUtil;
 
-	// metodu que informa quas url estão liberas para acesso
+	// metodo que informa quas url estão liberas para acesso
 	private static final String[] PUBLIC_MATCHERS = { 
 			"/h2-console/**" };
 
@@ -47,8 +47,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	// Somente Post
 	private static final String[] PUBLIC_MATCHERS_POST = { 
-			"/clientes/**",
-			"/auth/forgot/**"};
+			"/clientes/",
+			"/clientes/picture", // LIBERADO PROVISORIAMENTE !
+			"/auth/forgot/**"
+			};
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {

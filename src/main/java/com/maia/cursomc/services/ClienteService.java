@@ -1,5 +1,6 @@
 package com.maia.cursomc.services;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.maia.cursomc.domain.Cidade;
 import com.maia.cursomc.domain.Cliente;
@@ -29,8 +31,10 @@ import com.maia.cursomc.services.exception.ObjectNotFoundException;
 public class ClienteService {
 
 	@Autowired
-	private BCryptPasswordEncoder pe;  // para encodar a Senha no banco de dados
-	
+	private BCryptPasswordEncoder pe; // para encodar a Senha no banco de dados
+
+	@Autowired
+	private S3Service s3Service;
 
 	@Autowired // instanciando o Repositorio do Cliente
 	private ClienteRepository repository;
@@ -39,12 +43,12 @@ public class ClienteService {
 	EnderecoRepository enderecoRepository;
 
 	// metodo para BusarPor ID com SpringDataJPA
-	public Cliente find(Integer id) {		
+	public Cliente find(Integer id) {
 		UserSS user = UserService.authenticated();
-		if(user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+		if (user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
 			throw new AuthorizationException("Acesso Negado!");
 		}
-		
+
 		Optional<Cliente> obj = repository.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto Não Encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName()));
@@ -96,13 +100,13 @@ public class ClienteService {
 
 	// Metodo Auxiliar para Instaciar Uma Cliente Apartir de um DTO
 	public Cliente fromDTO(ClienteDTO objDTO) {
-		return new Cliente(objDTO.getId(), objDTO.getNome(), objDTO.getEmail(), null, null,null);
+		return new Cliente(objDTO.getId(), objDTO.getNome(), objDTO.getEmail(), null, null, null);
 	}
 
 	// metodo para Salvar o Cliente Com Todos as Suas dependencias
 	public Cliente fromDTO(ClienteNewDTO objDTO) {
 		Cliente cli = new Cliente(null, objDTO.getNome(), objDTO.getEmail(), objDTO.getCpfOrCnpf(),
-				TipoPessoa.toEnum(objDTO.getTipoPessoa()),pe.encode(objDTO.getSenha()));
+				TipoPessoa.toEnum(objDTO.getTipoPessoa()), pe.encode(objDTO.getSenha()));
 
 		Cidade cid = new Cidade(objDTO.getCidadeId(), null, null);
 
@@ -119,6 +123,11 @@ public class ClienteService {
 			cli.getTelefones().add(objDTO.getTelefone3());
 		}
 		return cli;
+	}
+
+	// Metodo para enviar a fto do cliente para o AWS S3
+	public URI uploadProfilePicture(MultipartFile multipartFile) {
+		return s3Service.uploadFile(multipartFile);
 	}
 
 }
