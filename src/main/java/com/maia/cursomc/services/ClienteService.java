@@ -44,7 +44,7 @@ public class ClienteService {
 
 	// metodo para BusarPor ID com SpringDataJPA
 	public Cliente find(Integer id) {
-		UserSS user = UserService.authenticated();
+		UserSS user = UserService.authenticated(); // pega o Usuario Logado, autenticado
 		if (user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
 			throw new AuthorizationException("Acesso Negado!");
 		}
@@ -127,7 +127,18 @@ public class ClienteService {
 
 	// Metodo para enviar a fto do cliente para o AWS S3
 	public URI uploadProfilePicture(MultipartFile multipartFile) {
-		return s3Service.uploadFile(multipartFile);
+		UserSS user = UserService.authenticated(); // pega o Usuario Logado, autenticado
+		if (user == null) {
+			throw new AuthorizationException("Acesso Negado!, Faço o Login para Continuar sua Operção!");
+		}
+
+		URI uri = s3Service.uploadFile(multipartFile);
+
+		Cliente cli = find(user.getId());
+		cli.setImageUrl(uri.toString());
+		repository.save(cli); // Salvar no Banco de Dados o Cliente com a Img Dele
+
+		return uri;
 	}
 
 }

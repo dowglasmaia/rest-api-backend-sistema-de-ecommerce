@@ -45,10 +45,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private static final String[] PUBLIC_MATCHERS_GET = {
 			"/produtos/**", "/categorias/**", "/clientes/**" };
 	
-	// Somente Post
+	// Somente Post 
 	private static final String[] PUBLIC_MATCHERS_POST = { 
-			"/clientes/",
-			"/clientes/picture", // LIBERADO PROVISORIAMENTE !
+			"/clientes/",  /* Cliente deve Estar Logado para fazer requisições de Post*/
 			"/auth/forgot/**"
 			};
 

@@ -8,8 +8,8 @@ import com.maia.cursomc.domain.Cliente;
 
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
-	
+
 	@Transactional(readOnly = true)
-	 Cliente findByEmail(String email);
+	Cliente findByEmail(String email);
 
 }
