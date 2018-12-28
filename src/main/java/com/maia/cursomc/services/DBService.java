@@ -128,6 +128,7 @@ public class DBService {
 		// **Povoando o Cliente no banco
 		Cliente cli1 = new Cliente(null, "Dowglas Maia", "dowglasmaia@live.com", "003.653.658-87",
 				TipoPessoa.PESSOA_FISICA, pe.encode("0123"));
+		cli1.addPerfil(Perfil.CLIENTE);
 		cli1.getTelefones().addAll(Arrays.asList("62-98888-8987", "89-95555-8745"));
 		Endereco e1 = new Endereco(null, "Rua k15", "20-B", "Apt-250", "Centro", "78.658-890", cli1, c1);
 		Endereco e2 = new Endereco(null, "Rua Ventos Leva", "220-B", "Apt-350", "Centro", "68.658-890", cli1, c3);

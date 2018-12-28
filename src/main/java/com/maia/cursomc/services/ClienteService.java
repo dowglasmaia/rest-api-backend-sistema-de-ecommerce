@@ -49,7 +49,7 @@ public class ClienteService {
 
 	@Value("${img.prefix.client.profile}") // pegando do application.properties
 	private String prefix;
-	
+
 	@Value("${img.profile.size}")
 	private Integer size;
 
@@ -103,6 +103,20 @@ public class ClienteService {
 		return repository.findAll();
 	}
 
+	/* Buscar Cliente Autenticado por Email */
+	public Cliente findByEmail(String email) {
+		UserSS user = UserService.authenticated(); // Pegando Usuario Autenticado
+
+		/* Fazendo a Verificação se o Usuario não estar Nulo e se estar Autenticando */
+		if (user != null && email.equals(user.getUsername())) {
+			Cliente obj = repository.findByEmail(email);
+			 return obj;
+		} else {
+			throw new AuthorizationException("Acesso Negado!");
+		}
+
+	}
+
 	// Listando Clientes por Paginação
 	public Page<Cliente> findPage(Integer page, Integer linesPage, String orderBy, String direction) {
 		PageRequest pageRequest = PageRequest.of(page, linesPage, Direction.valueOf(direction), orderBy);
@@ -142,13 +156,14 @@ public class ClienteService {
 		if (user == null) {
 			throw new AuthorizationException("Acesso Negado!, Faço o Login para Continuar sua Operção!");
 		}
-		
+
 		BufferedImage jpgImage = imageService.getJpgImageFromFile(multipartFile);
-		jpgImage = imageService.cropSquare(jpgImage); //  Faz o Recorte da Imagem de forma q fique quadrada
-		jpgImage = imageService.resize(jpgImage, size); //  Mudando o Tamanho da Img para o tamanho defenido no properties
-		
+		jpgImage = imageService.cropSquare(jpgImage); // Faz o Recorte da Imagem de forma q fique quadrada
+		jpgImage = imageService.resize(jpgImage, size); // Mudando o Tamanho da Img para o tamanho defenido no
+														// properties
+
 		String fileName = prefix + user.getId() + ".jpg";
-		
+
 		return s3Service.uploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");
 
 	}
