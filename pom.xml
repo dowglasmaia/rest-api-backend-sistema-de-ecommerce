@@ -96,12 +96,21 @@
 			<version>LATEST</version>
 		</dependency>
 
+		<!-- Para Trabalhar com extração de Imagens -->
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 			<version>LATEST</version>
 		</dependency>
-	
+
+
+		<!-- para ajustes tamanho de img -->
+		<dependency>
+			<groupId>org.imgscalr</groupId>
+			<artifactId>imgscalr-lib</artifactId>
+			<version>4.2</version>
+		</dependency>
+
 	</dependencies>
 
 

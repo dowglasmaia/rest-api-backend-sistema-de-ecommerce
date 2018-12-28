@@ -1,10 +1,12 @@
 package com.maia.cursomc.services;
 
+import java.awt.image.BufferedImage;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -40,7 +42,13 @@ public class ClienteService {
 	private ClienteRepository repository;
 
 	@Autowired
-	EnderecoRepository enderecoRepository;
+	private EnderecoRepository enderecoRepository;
+
+	@Autowired
+	private ImageService imageService;
+
+	@Value("${img.prefix.client.profile}") // pegando do application.properties
+	private String prefix;
 
 	// metodo para BusarPor ID com SpringDataJPA
 	public Cliente find(Integer id) {
@@ -131,14 +139,12 @@ public class ClienteService {
 		if (user == null) {
 			throw new AuthorizationException("Acesso Negado!, Faço o Login para Continuar sua Operção!");
 		}
+		
+		BufferedImage jpgImage = imageService.getJpgImageFromFile(multipartFile);
+		
+		String fileName = prefix + user.getId() + ".jpg";
+		return s3Service.uploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");
 
-		URI uri = s3Service.uploadFile(multipartFile);
-
-		Cliente cli = find(user.getId());
-		cli.setImageUrl(uri.toString());
-		repository.save(cli); // Salvar no Banco de Dados o Cliente com a Img Dele
-
-		return uri;
 	}
 
 }
