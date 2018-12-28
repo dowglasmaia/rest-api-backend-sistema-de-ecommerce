@@ -104,7 +104,7 @@
 		</dependency>
 
 
-		<!-- para ajustes tamanho de img -->
+		<!-- para ajustes no tamanho de imagem -->
 		<dependency>
 			<groupId>org.imgscalr</groupId>
 			<artifactId>imgscalr-lib</artifactId>

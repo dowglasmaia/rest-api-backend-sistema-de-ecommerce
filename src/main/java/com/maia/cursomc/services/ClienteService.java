@@ -49,6 +49,9 @@ public class ClienteService {
 
 	@Value("${img.prefix.client.profile}") // pegando do application.properties
 	private String prefix;
+	
+	@Value("${img.profile.size}")
+	private Integer size;
 
 	// metodo para BusarPor ID com SpringDataJPA
 	public Cliente find(Integer id) {
@@ -141,8 +144,11 @@ public class ClienteService {
 		}
 		
 		BufferedImage jpgImage = imageService.getJpgImageFromFile(multipartFile);
+		jpgImage = imageService.cropSquare(jpgImage); //  Faz o Recorte da Imagem de forma q fique quadrada
+		jpgImage = imageService.resize(jpgImage, size); //  Mudando o Tamanho da Img para o tamanho defenido no properties
 		
 		String fileName = prefix + user.getId() + ".jpg";
+		
 		return s3Service.uploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");
 
 	}

@@ -10,6 +10,7 @@ import java.io.InputStream;
 import javax.imageio.ImageIO;
 
 import org.apache.commons.io.FilenameUtils;
+import org.imgscalr.Scalr;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,10 +19,10 @@ import com.maia.cursomc.services.exception.FileException;
 @Service
 public class ImageService {
 
-	/* função para obter uma imagem JPG a partir do arquivo */
+	/* função para obter(Upload) uma imagem JPG a partir do arquivo */
 	public BufferedImage getJpgImageFromFile(MultipartFile uploadedFile) {
 		String ext = FilenameUtils.getExtension(uploadedFile.getOriginalFilename());
-		if (!"png".equals(ext) && "jpg".equals(ext)) {
+		if (!"png".equals(ext) && !"jpg".equals(ext)) {
 			throw new FileException("Somente imagens PNG e JPG são permitidas!");
 		}
 		try {
@@ -53,4 +54,17 @@ public class ImageService {
 			throw new FileException("Erro ao ler Arquivo!");
 		}
 	}
+
+	// Metodo para Fazer o Recorte da Imagem com base no menor lado da imagem
+	public BufferedImage cropSquare(BufferedImage sourceImg) {
+		int min = (sourceImg.getHeight() <= sourceImg.getWidth()) ? sourceImg.getHeight() : sourceImg.getWidth();
+		return Scalr.crop(sourceImg, (sourceImg.getWidth() / 2) - (min / 2), (sourceImg.getHeight() / 2) - (min / 2),
+				min, min);
+	}
+
+	// Metodo para Redimensionar uma Imagem
+	public BufferedImage resize(BufferedImage sourceImg, int size) {
+		return Scalr.resize(sourceImg, Scalr.Method.ULTRA_QUALITY, size);
+	}
+	
 }
