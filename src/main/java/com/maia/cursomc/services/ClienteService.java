@@ -114,7 +114,6 @@ public class ClienteService {
 		} else {
 			throw new AuthorizationException("Acesso Negado!");
 		}
-
 	}
 
 	// Listando Clientes por Paginação

@@ -62,7 +62,7 @@ public class DBService {
 
 	@Autowired
 	private ItemPedidoRepository itemPedidoRepository;
-
+	
 	@Autowired
 	private BCryptPasswordEncoder pe; // para encodar a Senha no banco de dados
 
