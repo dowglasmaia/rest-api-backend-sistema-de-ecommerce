@@ -2,42 +2,61 @@ package com.maia.cursomc.resources.exception;
 
 import java.io.Serializable;
 
+/*Class de messagem de Erro*/
+
 public class StandardError implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	private Long timestamp;
 	private Integer status;
-	private String msg;
-	private Long time;
-
-	public StandardError(Integer status, String msg, Long time) {
+	private String error;
+	private String message;
+	private String path;
+	
+	public StandardError() {
+		
+	}
+	
+	public StandardError(Long timestamp, Integer status, String error, String message, String path) {
 		super();
+		this.timestamp = timestamp;
 		this.status = status;
-		this.msg = msg;
-		this.time = time;
+		this.error = error;
+		this.message = message;
+		this.path = path;
 	}
 
+	public Long getTimestamp() {
+		return timestamp;
+	}
+	public void setTimestamp(Long timestamp) {
+		this.timestamp = timestamp;
+	}
 	public Integer getStatus() {
 		return status;
 	}
-
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
-
-	public String getMsg() {
-		return msg;
+	public String getError() {
+		return error;
+	}
+	public void setError(String error) {
+		this.error = error;
+	}
+	public String getMessage() {
+		return message;
+	}
+	public void setMessage(String message) {
+		this.message = message;
+	}
+	public String getPath() {
+		return path;
+	}
+	public void setPath(String path) {
+		this.path = path;
 	}
 
-	public void setMsg(String msg) {
-		this.msg = msg;
-	}
-
-	public Long getTime() {
-		return time;
-	}
-
-	public void setTime(Long time) {
-		this.time = time;
-	}
-
+	
+	
 }
