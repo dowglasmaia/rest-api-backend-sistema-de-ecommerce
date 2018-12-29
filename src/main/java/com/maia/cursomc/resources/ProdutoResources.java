@@ -28,6 +28,14 @@ public class ProdutoResources {
 		Produto obj = service.find(id);
 		return ResponseEntity.ok().body(obj);
 	}
+	
+	/*Listar Todos os Produtos*/
+	@RequestMapping(value="/lista", method = RequestMethod.GET)
+	public ResponseEntity<List<Produto>>findAll(){
+		List<Produto>lista = service.findAll();
+		return ResponseEntity.ok().body(lista);
+		
+	}
 
 	// lista Paginada
 	@RequestMapping(method = RequestMethod.GET)

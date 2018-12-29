@@ -39,4 +39,8 @@ public class ProdutoService {
 		return repository.findDistinctByNomeContainingAndCategoriasIn(nome, categorias, pageRequest);
 	}
 
+	//Listar Todos os produtos com DataJPA
+	public List<Produto>findAll(){
+		return repository.findAll();
+	}
 }
