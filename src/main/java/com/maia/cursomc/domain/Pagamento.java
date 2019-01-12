@@ -14,6 +14,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.maia.cursomc.domain.enums.EstadoPgto;
 
+/**
+ * @author Dowglas Maia
+ * Skype: live:dowglasmaia
+ * E-mail:dowglasmaia@live.com
+ * Linkedin: www.linkedin.com/in/dowglasmaia
+ * */
+
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED) // Gera uma Tabela Para Cada Herança da mesma
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")  // para instancia a class Abstrata  um capo adicional com @Type

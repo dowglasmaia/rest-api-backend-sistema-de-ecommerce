@@ -22,6 +22,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.maia.cursomc.domain.enums.Perfil;
 import com.maia.cursomc.domain.enums.TipoPessoa;
 
+/**
+ * @author Dowglas Maia
+ * Skype: live:dowglasmaia
+ * E-mail:dowglasmaia@live.com
+ * Linkedin: www.linkedin.com/in/dowglasmaia
+ * */
+
 @Entity
 public class Cliente implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -56,8 +63,8 @@ public class Cliente implements Serializable {
 	@JsonIgnore
 	@OneToMany(mappedBy = "cliente")
 	private List<Pedido> pedidos = new ArrayList<>();
-	
-	//private String imageUrl;
+
+	// private String imageUrl;
 
 	// **Construtores**//
 	public Cliente() {
@@ -79,17 +86,20 @@ public class Cliente implements Serializable {
 	public TipoPessoa getTipoPessoa() {
 		return TipoPessoa.toEnum(tipoPessoa);
 	}
+	public void setTipoPessoa(TipoPessoa tipoPessoa) {
+		this.tipoPessoa = tipoPessoa.getCod();
+	}
 
 	// Retorna os Perfis dos Clientes do Enum Perfil
 	public Set<Perfil> getPerfis() {
 		return perfis.stream().map(x -> Perfil.toEnum(x)).collect(Collectors.toSet());
 	}
 
-	//Adiciona o Perfil dos Clientes
+	// Adiciona o Perfil dos Clientes
 	public void addPerfil(Perfil perfil) {
 		perfis.add(perfil.getCod());
 	}
-	
+
 	// ***Getters e Setters***//
 	public Integer getId() {
 		return id;
@@ -121,10 +131,6 @@ public class Cliente implements Serializable {
 
 	public void setCpfOrCnpf(String cpfOrCnpf) {
 		this.cpfOrCnpf = cpfOrCnpf;
-	}
-
-	public void setTipoPessoa(TipoPessoa tipoPessoa) {
-		this.tipoPessoa = tipoPessoa.getCod();
 	}
 
 	public List<Endereco> getEnderecos() {
@@ -183,6 +189,5 @@ public class Cliente implements Serializable {
 			return false;
 		return true;
 	}
-
 
 }

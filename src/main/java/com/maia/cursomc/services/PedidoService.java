@@ -22,7 +22,6 @@ import com.maia.cursomc.domain.security.UserSS;
 import com.maia.cursomc.repositores.ItemPedidoRepository;
 import com.maia.cursomc.repositores.PagamentoRepository;
 import com.maia.cursomc.repositores.PedidoRepository;
-import com.maia.cursomc.services.email.EmailService;
 import com.maia.cursomc.services.exception.AuthorizationException;
 import com.maia.cursomc.services.exception.ObjectNotFoundException;
 
@@ -47,8 +46,10 @@ public class PedidoService {
 	@Autowired
 	private ClienteService clienteService;
 
-	@Autowired
-	private EmailService emailService;
+	
+	
+	
+	
 
 	// metodo para BusarPor ID com SpringDataJPA
 		public Optional<Pedido> find(Integer id) {
@@ -66,7 +67,7 @@ public class PedidoService {
 		}
 		
 
-	// inserir Pedido
+	// inserir Pedido novo pedido
 	@Transactional
 	public Pedido insert(Pedido obj) {
 		obj.setId(null); // garantindo que é um pedido novo
@@ -74,10 +75,12 @@ public class PedidoService {
 		obj.setCliente(clienteService.find(obj.getCliente().getId()));
 		obj.getPagamento().setEstadoPgto(EstadoPgto.PENDENTE);
 		obj.getPagamento().setPedido(obj);
+		
 		if (obj.getPagamento() instanceof PgtoBoleto) {
 			PgtoBoleto pgtBoleto = (PgtoBoleto) obj.getPagamento();
 			boletoService.preencherPgtoBoleto(pgtBoleto, obj.getDtaPedido());
 		}
+		
 		obj = repository.save(obj);
 		pagamentoRepository.save(obj.getPagamento());
 
@@ -87,8 +90,7 @@ public class PedidoService {
 			ip.setPreco(ip.getProduto().getPreco());
 			ip.setPedido(obj);
 		}
-		itemPedidoRepository.saveAll(obj.getItens());
-		// emailService.sendOrderConfirmationEmail(obj);
+		itemPedidoRepository.saveAll(obj.getItens());		
 		return obj;
 	}
 

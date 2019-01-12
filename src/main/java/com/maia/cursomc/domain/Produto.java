@@ -18,6 +18,13 @@ import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+/**
+ * @author Dowglas Maia
+ * Skype: live:dowglasmaia
+ * E-mail:dowglasmaia@live.com
+ * Linkedin: www.linkedin.com/in/dowglasmaia
+ * */
+
 @Entity
 public class Produto implements Serializable {
 	private static final long serialVersionUID = 1L;

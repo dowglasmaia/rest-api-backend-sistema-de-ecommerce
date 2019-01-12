@@ -11,6 +11,13 @@ import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+/**
+ * @author Dowglas Maia
+ * Skype: live:dowglasmaia
+ * E-mail:dowglasmaia@live.com
+ * Linkedin: www.linkedin.com/in/dowglasmaia
+ * */
+
 @Entity
 public class Endereco implements Serializable {
 	private static final long serialVersionUID = 1L;

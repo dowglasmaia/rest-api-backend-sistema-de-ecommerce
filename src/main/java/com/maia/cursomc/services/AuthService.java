@@ -8,8 +8,11 @@ import org.springframework.stereotype.Service;
 
 import com.maia.cursomc.domain.Cliente;
 import com.maia.cursomc.repositores.ClienteRepository;
-import com.maia.cursomc.services.email.EmailService;
+//import com.maia.cursomc.services.email.EmailService;
 import com.maia.cursomc.services.exception.ObjectNotFoundException;
+
+/*
+ * Class para Recuperação de Senha do Usuario*/
 
 @Service
 public class AuthService {
@@ -23,8 +26,8 @@ public class AuthService {
 	@Autowired
 	private BCryptPasswordEncoder pe;
 
-	@Autowired
-	private EmailService emailService;
+	//@Autowired
+	//private EmailService emailService;
 
 	// recuperando a Senha do usuario
 	public void sendNewPassword(String email) {
@@ -40,7 +43,7 @@ public class AuthService {
 
 		clienteRepository.save(cliente);
 
-		emailService.sendNewPasswordEmail(cliente, newPass); // enviando a nova para o email correspondente ao cliente
+		//emailService.sendNewPasswordEmail(cliente, newPass); // enviando a nova para o email correspondente ao cliente
 
 	}
 

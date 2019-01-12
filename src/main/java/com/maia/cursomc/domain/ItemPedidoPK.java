@@ -6,6 +6,13 @@ import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+/**
+ * @author Dowglas Maia
+ * Skype: live:dowglasmaia
+ * E-mail:dowglasmaia@live.com
+ * Linkedin: www.linkedin.com/in/dowglasmaia
+ * */
+
 @Embeddable
 public class ItemPedidoPK implements Serializable {
 	private static final long serialVersionUID = 1L;

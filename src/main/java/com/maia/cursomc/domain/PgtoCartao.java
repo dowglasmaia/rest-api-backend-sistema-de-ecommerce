@@ -5,6 +5,13 @@ import javax.persistence.Entity;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.maia.cursomc.domain.enums.EstadoPgto;
 
+/**
+ * @author Dowglas Maia
+ * Skype: live:dowglasmaia
+ * E-mail:dowglasmaia@live.com
+ * Linkedin: www.linkedin.com/in/dowglasmaia
+ * */
+
 @Entity
 @JsonTypeName("pgtoComCartao")
 public class PgtoCartao extends Pagamento {
